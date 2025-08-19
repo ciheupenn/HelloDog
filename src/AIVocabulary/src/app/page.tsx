@@ -134,15 +134,13 @@ export default function HomePage() {
             />
           </div>
 
-          {/* AI Guidance Bar */}
-          {hasWords && (
-            <div className="mb-12">
-              <AIBar
-                onSubmit={handleAIGuidance}
-                disabled={isProcessingStory}
-              />
-            </div>
-          )}
+          {/* AI Guidance Bar - Always visible */}
+          <div className="mb-12">
+            <AIBar
+              onSubmit={handleAIGuidance}
+              disabled={isProcessingStory}
+            />
+          </div>
 
           {/* Vocabulary Grid */}
           {hasWords && (
