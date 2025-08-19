@@ -21,32 +21,27 @@ export default function VocabularyGrid({ onDefineWord }: VocabularyGridProps) {
   const displayWords = selectedFilter === 'unknown' ? unknownWords : knownWords
 
   const handleWordClick = (wordId: string) => {
+    const word = words.find(w => w.id === wordId)
+    if (!word) return
+    
+    const oldStatus = word.status
     toggleWordStatus(wordId)
     
-    // Show undo toast
-    if (recentActions.length === 0) {
-      setTimeout(() => {
-        const actions = useVocabularyStore.getState().recentActions
-        if (actions.length > 0) {
-          const action = actions[0]
-          const newStatus = action.word.status === 'unknown' ? 'known' : 'unknown'
-          
-          toast.success(
-            `Moved "${action.word.lemma}" to ${newStatus}`,
-            {
-              duration: 4000,
-              action: {
-                label: 'Undo',
-                onClick: () => {
-                  undoLastAction()
-                  toast.success('Undone')
-                }
-              }
-            } as any
-          )
+    // Show undo toast with better messaging
+    const newStatus = oldStatus === 'unknown' ? 'known' : 'unknown'
+    toast.success(
+      `"${word.lemma}" moved to ${newStatus}`,
+      {
+        duration: 4000,
+        action: {
+          label: 'Undo',
+          onClick: () => {
+            undoLastAction()
+            toast.success('Action undone')
+          }
         }
-      }, 100)
-    }
+      } as any
+    )
   }
 
   const handleWordRightClick = async (event: React.MouseEvent, word: string) => {
@@ -70,18 +65,18 @@ export default function VocabularyGrid({ onDefineWord }: VocabularyGridProps) {
   }
 
   return (
-    <section className="w-full max-w-6xl mx-auto">
-      <div className="bg-white/80 border border-divider rounded-custom shadow-glass p-6">
+    <section className="w-full max-w-4xl mx-auto">
+      <div className="bg-white border border-divider rounded-custom shadow-sm p-6">
         <div className="flex items-center justify-between mb-6">
-          <div className="flex gap-2">
+          <div className="flex gap-3">
             <button
               onClick={() => setSelectedFilter('unknown')}
               className={cn(
-                "px-4 py-2 rounded-lg font-medium transition-all duration-200",
+                "px-5 py-2.5 rounded-full font-medium text-sm transition-all duration-200",
                 "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
                 selectedFilter === 'unknown'
-                  ? "bg-primary text-white shadow-sm"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  ? "bg-gray-900 text-white shadow-sm"
+                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
               )}
             >
               Unknown ({unknownWords.length})
@@ -89,60 +84,68 @@ export default function VocabularyGrid({ onDefineWord }: VocabularyGridProps) {
             <button
               onClick={() => setSelectedFilter('known')}
               className={cn(
-                "px-4 py-2 rounded-lg font-medium transition-all duration-200",
+                "px-5 py-2.5 rounded-full font-medium text-sm transition-all duration-200",
                 "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
                 selectedFilter === 'known'
-                  ? "bg-primary text-white shadow-sm"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  ? "bg-gray-900 text-white shadow-sm"
+                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
               )}
             >
               Known ({knownWords.length})
             </button>
           </div>
 
-          {recentActions.length > 0 && (
-            <button
-              onClick={undoLastAction}
-              className="text-sm text-muted hover:text-ink transition-colors duration-200"
-            >
-              Undo last action
-            </button>
-          )}
+          <div className="flex items-center gap-4">
+            {recentActions.length > 0 && (
+              <button
+                onClick={undoLastAction}
+                className="text-sm text-primary hover:text-primary-hover font-medium transition-colors duration-200"
+              >
+                Undo
+              </button>
+            )}
+          </div>
+        </div>
+
+        <div className="mb-4 text-xs text-gray-500 text-center">
+          Tip: left-click a word to mark Known. Right-click opens definition.
         </div>
 
         {displayWords.length === 0 ? (
-          <div className="text-center py-12 text-muted">
-            <p>No {selectedFilter} words yet.</p>
+          <div className="text-center py-12 text-gray-500">
+            <p className="text-base">No {selectedFilter} words yet.</p>
             {selectedFilter === 'unknown' && words.length > 0 && (
               <p className="text-sm mt-2">All words have been marked as known!</p>
             )}
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
-            {displayWords.map((word) => (
-              <button
-                key={word.id}
-                onClick={() => handleWordClick(word.id)}
-                onContextMenu={(e) => handleWordRightClick(e, word.lemma)}
-                className={cn(
-                  "p-3 rounded-lg border text-sm font-medium",
-                  "transition-all duration-200 text-left",
-                  "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
-                  "hover:scale-105 hover:shadow-md",
-                  word.status === 'unknown'
-                    ? "bg-red-50 border-red-200 text-red-900 hover:bg-red-100"
-                    : "bg-green-50 border-green-200 text-green-900 hover:bg-green-100",
-                  loadingDefinition === word.lemma && "opacity-50"
-                )}
-                disabled={loadingDefinition === word.lemma}
-                title={`Left-click to move to ${word.status === 'unknown' ? 'known' : 'unknown'}, right-click for definition`}
-              >
-                <div className="truncate">{word.lemma}</div>
-                {word.pos && (
-                  <div className="text-xs opacity-75 mt-1">({word.pos})</div>
-                )}
-              </button>
-            ))}
+          <div className="relative">
+            <div 
+              className="vocabulary-scrollbar max-h-60 overflow-y-scroll grid grid-cols-4 sm:grid-cols-5 md:grid-cols-5 lg:grid-cols-5 xl:grid-cols-5 gap-3 pr-4"
+              style={{
+                scrollbarWidth: 'auto',
+                scrollbarColor: '#9ca3af #f3f4f6'
+              }}
+            >
+              {displayWords.map((word) => (
+                <button
+                  key={word.id}
+                  onClick={() => handleWordClick(word.id)}
+                  onContextMenu={(e) => handleWordRightClick(e, word.lemma)}
+                  className={cn(
+                    "px-4 py-2.5 rounded-full text-center font-medium text-sm",
+                    "transition-all duration-200",
+                    "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
+                    "hover:scale-105 hover:shadow-lg",
+                    "bg-gray-100 text-gray-800 hover:bg-gray-200 border border-gray-200",
+                    loadingDefinition === word.lemma && "opacity-50"
+                  )}
+                  disabled={loadingDefinition === word.lemma}
+                >
+                  <div className="truncate">{word.lemma}</div>
+                </button>
+              ))}
+            </div>
           </div>
         )}
       </div>

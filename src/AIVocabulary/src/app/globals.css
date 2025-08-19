@@ -55,18 +55,57 @@ textarea:focus {
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: #f1f5f9;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 3px;
+  background: #cbd5e1;
+  border-radius: 4px;
+  border: 1px solid #e2e8f0;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.2);
+  background: #94a3b8;
+}
+
+/* Vocabulary grid scrollbar - matches modern UI design */
+.vocabulary-scrollbar {
+  scrollbar-width: auto;
+  scrollbar-color: #9ca3af #f3f4f6;
+}
+
+.vocabulary-scrollbar::-webkit-scrollbar {
+  width: 14px;
+}
+
+.vocabulary-scrollbar::-webkit-scrollbar-track {
+  background: #f3f4f6;
+  border-radius: 7px;
+  border: 1px solid #e5e7eb;
+}
+
+.vocabulary-scrollbar::-webkit-scrollbar-thumb {
+  background: #9ca3af;
+  border-radius: 7px;
+  border: 2px solid #f3f4f6;
+  background-clip: content-box;
+}
+
+.vocabulary-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}
+
+/* Always show scrollbar */
+.vocabulary-scrollbar::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border: 2px solid #f3f4f6;
+}
+
+.vocabulary-scrollbar:hover::-webkit-scrollbar-thumb {
+  background: #9ca3af;
 }

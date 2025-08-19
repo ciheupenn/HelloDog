@@ -112,11 +112,11 @@ export default function UploadCard({
 
   return (
     <section className="w-full max-w-4xl mx-auto">
-      <div className="bg-white/80 border border-divider rounded-custom shadow-glass p-8">
+      <div className="bg-white/80 border border-divider rounded-custom shadow-glass p-6">
         <div
           {...getRootProps()}
           className={cn(
-            "border-2 border-dashed border-divider rounded-custom p-12",
+            "border-2 border-dashed border-divider rounded-custom p-8",
             "flex flex-col items-center justify-center text-center",
             "transition-all duration-200 ease-in-out",
             "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
@@ -130,11 +130,11 @@ export default function UploadCard({
         >
           <input {...getInputProps()} />
           
-          <h2 className="text-lg font-semibold text-ink mb-3">
+          <h2 className="text-lg font-semibold text-ink mb-2">
             Drag and drop files to upload
           </h2>
           
-          <p className="text-sm text-muted mb-8">
+          <p className="text-sm text-muted mb-6">
             PDF • DOC • DOCX • CSV
           </p>
           
@@ -143,8 +143,8 @@ export default function UploadCard({
             onClick={handleButtonClick}
             disabled={disabled || isUploading}
             className={cn(
-              "px-8 py-3 bg-primary text-white rounded-custom font-medium",
-              "min-h-[44px] min-w-[140px] text-sm",
+              "px-6 py-2.5 bg-primary text-white rounded-custom font-medium",
+              "min-h-[40px] min-w-[120px] text-sm",
               "transition-all duration-200 ease-in-out",
               "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
               disabled || isUploading 
@@ -156,7 +156,7 @@ export default function UploadCard({
           </button>
           
           {isDragActive && !disabled && !isUploading && (
-            <p className="text-sm text-primary mt-4 animate-fade-in">
+            <p className="text-sm text-primary mt-3 animate-fade-in">
               Drop to add
             </p>
           )}

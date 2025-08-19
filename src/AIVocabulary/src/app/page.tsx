@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
-
 import AppHeader from '@/components/AppHeader'
 import UploadCard from '@/components/UploadCard'
 import AIBar from '@/components/AIBar'
@@ -111,15 +110,15 @@ export default function HomePage() {
     <div className="min-h-screen bg-surface">
       <AppHeader user={user} />
       
-      <main className="pb-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="pb-24">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           {/* Hero Section */}
-          <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-ink mb-4">
+          <div className="text-center mb-16 max-w-4xl mx-auto">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-ink mb-8">
               Learn Vocabulary Through
               <span className="text-primary block">AI-Generated Stories</span>
             </h1>
-            <p className="text-lg md:text-xl text-muted max-w-3xl mx-auto">
+            <p className="text-lg md:text-xl text-muted max-w-3xl mx-auto leading-relaxed">
               Upload your documents, identify unknown words, and read engaging stories 
               that help you master new vocabulary through context.
             </p>
@@ -142,14 +141,12 @@ export default function HomePage() {
             />
           </div>
 
-          {/* Vocabulary Grid */}
-          {hasWords && (
-            <div className="mb-12">
-              <VocabularyGrid
-                onDefineWord={handleDefineWord}
-              />
-            </div>
-          )}
+          {/* Vocabulary Grid - Always visible */}
+          <div className="mb-12">
+            <VocabularyGrid
+              onDefineWord={handleDefineWord}
+            />
+          </div>
 
           {/* Story Setup */}
           {unknownCount > 0 && (
