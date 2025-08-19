@@ -112,16 +112,16 @@ export default function UploadCard({
 
   return (
     <section className="w-full max-w-4xl mx-auto">
-      <div className="bg-white/80 border border-divider rounded-custom shadow-glass p-6">
+      <div className="bg-white/80 border border-divider rounded-custom shadow-glass p-4">
         <div
           {...getRootProps()}
           className={cn(
-            "border-2 border-dashed border-divider rounded-custom p-8",
-            "flex flex-col items-center justify-center text-center",
-            "transition-all duration-200 ease-in-out",
+            "border-2 border-dashed border-divider rounded-custom p-6",
+            "flex items-center justify-center text-center",
+            "transition-all duration-200 ease-in-out min-h-[100px]",
             "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
             disabled || isUploading ? "opacity-50 cursor-not-allowed" : "cursor-pointer hover:border-primary/50",
-            isDragActive && "border-primary bg-primary/5 scale-[1.02]"
+            isDragActive && "border-primary bg-primary/5 scale-[1.01]"
           )}
           role="button"
           tabIndex={disabled || isUploading ? -1 : 0}
@@ -130,35 +130,49 @@ export default function UploadCard({
         >
           <input {...getInputProps()} />
           
-          <h2 className="text-lg font-semibold text-ink mb-2">
-            Drag and drop files to upload
-          </h2>
-          
-          <p className="text-sm text-muted mb-6">
-            PDF • DOC • DOCX • CSV
-          </p>
-          
-          <button
-            type="button"
-            onClick={handleButtonClick}
-            disabled={disabled || isUploading}
-            className={cn(
-              "px-6 py-2.5 bg-primary text-white rounded-custom font-medium",
-              "min-h-[40px] min-w-[120px] text-sm",
-              "transition-all duration-200 ease-in-out",
-              "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
-              disabled || isUploading 
-                ? "opacity-50 cursor-not-allowed" 
-                : "hover:bg-primary-hover active:bg-primary-active hover:scale-105"
-            )}
-          >
-            {isUploading ? 'Uploading...' : 'Select files'}
-          </button>
+          <div className="flex items-center gap-4">
+            <div className="flex-shrink-0">
+              <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-primary">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7,10 12,15 17,10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+              </div>
+            </div>
+            
+            <div className="text-left">
+              <h3 className="text-base font-semibold text-ink mb-1">
+                Drop files here or click to upload
+              </h3>
+              <p className="text-sm text-muted">
+                PDF, DOC, DOCX, CSV files supported
+              </p>
+            </div>
+            
+            <button
+              type="button"
+              onClick={handleButtonClick}
+              disabled={disabled || isUploading}
+              className={cn(
+                "px-4 py-2 bg-primary text-white rounded-lg font-medium text-sm",
+                "transition-all duration-200 ease-in-out flex-shrink-0",
+                "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
+                disabled || isUploading 
+                  ? "opacity-50 cursor-not-allowed" 
+                  : "hover:bg-primary-hover active:bg-primary-active"
+              )}
+            >
+              {isUploading ? 'Uploading...' : 'Select files'}
+            </button>
+          </div>
           
           {isDragActive && !disabled && !isUploading && (
-            <p className="text-sm text-primary mt-3 animate-fade-in">
-              Drop to add
-            </p>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <p className="text-sm text-primary font-medium bg-white/90 px-3 py-1 rounded-full">
+                Drop to upload
+              </p>
+            </div>
           )}
         </div>
       </div>

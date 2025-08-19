@@ -113,19 +113,19 @@ export default function HomePage() {
       <main className="pb-24">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           {/* Hero Section */}
-          <div className="text-center mb-16 max-w-4xl mx-auto">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-ink mb-8">
+          <div className="text-center mb-12 max-w-3xl mx-auto">
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-ink mb-4">
               Learn Vocabulary Through
               <span className="text-primary block">AI-Generated Stories</span>
             </h1>
-            <p className="text-lg md:text-xl text-muted max-w-3xl mx-auto leading-relaxed">
-              Upload your documents, identify unknown words, and read engaging stories 
-              that help you master new vocabulary through context.
+            <p className="text-base md:text-lg text-muted max-w-2xl mx-auto leading-relaxed">
+              Upload documents, identify unknown words, and read engaging stories 
+              that help you master vocabulary through context.
             </p>
           </div>
 
           {/* Upload Section */}
-          <div className="mb-12">
+          <div className="mb-10">
             <UploadCard
               onResult={handleUploadResult}
               onError={handleUploadError}
@@ -134,7 +134,7 @@ export default function HomePage() {
           </div>
 
           {/* AI Guidance Bar - Always visible */}
-          <div className="mb-12">
+          <div className="mb-10">
             <AIBar
               onSubmit={handleAIGuidance}
               disabled={isProcessingStory}
@@ -142,7 +142,7 @@ export default function HomePage() {
           </div>
 
           {/* Vocabulary Grid - Always visible */}
-          <div className="mb-12">
+          <div className="mb-10">
             <VocabularyGrid
               onDefineWord={handleDefineWord}
             />
@@ -150,7 +150,7 @@ export default function HomePage() {
 
           {/* Story Setup */}
           {unknownCount > 0 && (
-            <div className="mb-12">
+            <div className="mb-10">
               <StorySetup
                 onCreateStory={handleCreateStory}
                 disabled={isProcessingStory}

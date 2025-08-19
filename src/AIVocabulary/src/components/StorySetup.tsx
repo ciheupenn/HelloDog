@@ -122,7 +122,7 @@ export default function StorySetup({ onCreateStory, disabled = false }: StorySet
                 <option value="ko">Korean</option>
               </select>
               <p className="text-xs text-muted mt-1">
-                Translations will appear after the first use of each word in the story
+                Translations will appear alongside each unknown word throughout the story
               </p>
             </div>
           </div>
