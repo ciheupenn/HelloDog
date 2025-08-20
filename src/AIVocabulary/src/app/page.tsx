@@ -83,21 +83,53 @@ export default function HomePage() {
     setIsProcessingStory(true)
     
     try {
-      // Simulate story creation - in real app this would call the story API
-      await new Promise(resolve => setTimeout(resolve, 2000))
+      // Show different loading message based on whether character image is uploaded
+      const loadingMessage = storySettings.styleImageUrl 
+        ? 'Creating story with character-based manga illustrations...'
+        : 'Creating story...'
       
-      // For demo, just show success and redirect would happen
-      toast.success('Story created successfully!')
+      toast.loading(loadingMessage, { id: 'story-creation' })
       
-      // In real app: router.push('/reader')
-      console.log('Would navigate to story reader with:', {
-        words: unknownWords.slice(0, storySettings.wordsToInclude),
-        settings: storySettings
+      // Call the story API with character image for manga-style generation
+      const response = await fetch('/api/story', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          words: unknownWords.slice(0, storySettings.wordsToInclude),
+          settings: {
+            ...storySettings,
+            // Character image URL for manga-style generation
+            styleImageUrl: storySettings.styleImageUrl
+          }
+        })
       })
+
+      if (!response.ok) {
+        throw new Error(`Story API error: ${response.status}`)
+      }
+
+      const storyData = await response.json()
+      
+      toast.success(
+        storySettings.styleImageUrl 
+          ? 'Story created with character-based manga illustrations!' 
+          : 'Story created successfully!',
+        { id: 'story-creation' }
+      )
+      
+      // Store the complete story data in sessionStorage for immediate access
+      if (storyData.storyData) {
+        sessionStorage.setItem(`story-${storyData.id}`, JSON.stringify(storyData.storyData))
+      }
+      
+      // Navigate to the reader with the generated story
+      router.push(`/reader/${storyData.id}`)
       
     } catch (error) {
       console.error('Error creating story:', error)
-      toast.error('Failed to create story. Please try again.')
+      toast.error('Failed to create story. Please try again.', { id: 'story-creation' })
     } finally {
       setIsProcessingStory(false)
     }
@@ -146,6 +178,34 @@ export default function HomePage() {
             <VocabularyGrid
               onDefineWord={handleDefineWord}
             />
+          </div>
+
+          {/* Demo Reader Button */}
+          <div className="mb-10 text-center">
+            <div className="bg-gradient-to-r from-primary/10 to-purple-100 rounded-2xl p-6 border border-primary/20">
+              <h3 className="text-lg font-semibold text-ink mb-2">📖 Try the Story Reader</h3>
+              <p className="text-sm text-muted mb-4">
+                Experience the interactive storybook with page animations, TTS narration, and character integration
+              </p>
+              <button
+                onClick={() => router.push('/reader/sample-1')}
+                className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-all duration-200 font-medium shadow-sm hover:shadow-md transform hover:scale-105"
+              >
+                🎬 Preview Story Reader (Demo)
+              </button>
+              {storySettings.styleImageUrl && (
+                <div className="mt-3 flex items-center justify-center gap-2 text-xs text-gray-600">
+                  <div className="w-6 h-6 rounded-full overflow-hidden border border-gray-300">
+                    <img 
+                      src={storySettings.styleImageUrl} 
+                      alt="Character" 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  Your character will appear in the story illustrations
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Story Setup */}

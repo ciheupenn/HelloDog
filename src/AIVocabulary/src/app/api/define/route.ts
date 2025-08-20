@@ -3,6 +3,56 @@ import { Definition } from '@/types'
 
 // Mock definitions for demonstration
 const MOCK_DEFINITIONS: Record<string, Definition> = {
+  'resilient': {
+    word: 'resilient',
+    definitionEN: 'Able to withstand or recover quickly from difficult conditions.',
+    pos: 'adjective'
+  },
+  'abundant': {
+    word: 'abundant',
+    definitionEN: 'Existing or available in large quantities; plentiful.',
+    pos: 'adjective'
+  },
+  'courage': {
+    word: 'courage',
+    definitionEN: 'The ability to do something that frightens one; bravery.',
+    pos: 'noun'
+  },
+  'challenge': {
+    word: 'challenge',
+    definitionEN: 'A call to take part in a contest or competition, especially a demanding one.',
+    pos: 'noun'
+  },
+  'obstacle': {
+    word: 'obstacle',
+    definitionEN: 'A thing that blocks one\'s way or prevents or hinders progress.',
+    pos: 'noun'
+  },
+  'spirit': {
+    word: 'spirit',
+    definitionEN: 'The non-physical part of a person which is the seat of emotions and character.',
+    pos: 'noun'
+  },
+  'journey': {
+    word: 'journey',
+    definitionEN: 'An act of traveling from one place to another.',
+    pos: 'noun'
+  },
+  'village': {
+    word: 'village',
+    definitionEN: 'A group of houses and associated buildings, larger than a hamlet.',
+    pos: 'noun'
+  },
+  'overcome': {
+    word: 'overcome',
+    definitionEN: 'Succeed in dealing with a problem; defeat.',
+    pos: 'verb'
+  },
+  'support': {
+    word: 'support',
+    definitionEN: 'Give assistance to; help or encourage.',
+    pos: 'verb'
+  },
   'serendipity': {
     word: 'serendipity',
     definitionEN: 'The occurrence and development of events by chance in a happy or beneficial way.',

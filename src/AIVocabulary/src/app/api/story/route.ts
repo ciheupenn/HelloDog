@@ -1,5 +1,78 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Word } from '@/types'
+import { generateStoryImages, ImageGenerationResult } from '@/lib/image-generation'
+import type { CreateStoryResult } from '@/types/story'
+import { storeStory } from '@/lib/story-storage'
+import { generateCharacterConsistentStory } from '@/lib/character-consistent-images'
+import { generateGoogleStorybook, generateImagesFromPageText } from '@/lib/google-storybook-engine'
+import { generateGoogleProductionStorybook } from '@/lib/google-production-storybook'
+import { cacheStoryImmediate } from '@/lib/immediate-story-cache'
+
+/**
+ * Creates story pages from content and generated images
+ */
+function createStoryPages(
+  content: string, 
+  images: ImageGenerationResult[]
+): StoryResponse['pages'] {
+  // Split content into paragraphs
+  const paragraphs = content.split('\n\n').filter(p => p.trim())
+  const targetPageCount = 10
+  const paragraphsPerPage = Math.ceil(paragraphs.length / targetPageCount)
+  
+  const pages: StoryResponse['pages'] = []
+  
+  for (let i = 0; i < targetPageCount; i++) {
+    const startIdx = i * paragraphsPerPage
+    const endIdx = Math.min(startIdx + paragraphsPerPage, paragraphs.length)
+    const pageContent = paragraphs.slice(startIdx, endIdx).join('\n\n')
+    
+    // Skip empty pages
+    if (!pageContent.trim()) continue
+    
+    pages.push({
+      no: i + 1,
+      text: pageContent,
+      imageUrl: images[i]?.imageUrl || `https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=800&h=600&fit=crop&auto=format`,
+      audioUrl: null
+    })
+  }
+  
+  return pages
+}
+
+/**
+ * Creates story pages with character-consistent images
+ */
+function createStoryPagesWithCharacterImages(
+  content: string, 
+  characterImages: string[]
+): StoryResponse['pages'] {
+  // Split content into paragraphs
+  const paragraphs = content.split('\n\n').filter(p => p.trim())
+  const targetPageCount = 10
+  const paragraphsPerPage = Math.ceil(paragraphs.length / targetPageCount)
+  
+  const pages: StoryResponse['pages'] = []
+  
+  for (let i = 0; i < targetPageCount; i++) {
+    const startIdx = i * paragraphsPerPage
+    const endIdx = Math.min(startIdx + paragraphsPerPage, paragraphs.length)
+    const pageContent = paragraphs.slice(startIdx, endIdx).join('\n\n')
+    
+    // Skip empty pages
+    if (!pageContent.trim()) continue
+    
+    pages.push({
+      no: i + 1,
+      text: pageContent,
+      imageUrl: characterImages[i] || `https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=800&h=600&fit=crop&auto=format`,
+      audioUrl: null
+    })
+  }
+  
+  return pages
+}
 
 interface StoryRequest {
   words: Word[]
@@ -7,6 +80,8 @@ interface StoryRequest {
     length: 'short' | 'medium' | 'long'
     style: 'adventure' | 'mystery' | 'romance' | 'scifi' | 'fantasy'
     targetAge: 'child' | 'teen' | 'adult'
+    wordsToInclude: number
+    translationLocale: string
     guidanceText?: string
     styleImageUrl?: string
   }
@@ -18,6 +93,13 @@ interface StoryResponse {
   content: string
   wordsUsed: string[]
   estimatedReadTime: number
+  pages: Array<{
+    no: number
+    text: string
+    imageUrl?: string
+    audioUrl?: string | null
+  }>
+  storyData?: CreateStoryResult
 }
 
 export async function POST(request: NextRequest) {
@@ -126,15 +208,71 @@ The **fluctuation** in magical energy reached its peak as Lyra began her incanta
     const wordCount = selectedStory.content.split(' ').length
     const estimatedReadTime = Math.ceil(wordCount / 200)
 
+    // Generate character-consistent images using Google's PRODUCTION technology with REAL AI
+    let storyPages: StoryResponse['pages'] = []
+    
+    if (settings.styleImageUrl) {
+      console.log('🚀 GOOGLE PRODUCTION: Starting REAL AI character-consistent storybook generation')
+      console.log('📸 CHARACTER IMAGE:', settings.styleImageUrl)
+      
+      // Use Google's actual production system with REAL AI
+      const googleStoryPages = await generateGoogleProductionStorybook(
+        settings.styleImageUrl,
+        selectedStory.content,
+        10
+      )
+      
+      // Convert Google story pages to our format
+      storyPages = googleStoryPages.map(page => ({
+        no: page.pageNumber,
+        text: page.textContent,
+        imageUrl: page.generatedImageData.imageUrl,
+        audioUrl: null
+      }))
+      
+      console.log('✅ GOOGLE PRODUCTION: Generated', storyPages.length, 'REAL AI character-consistent pages')
+      console.log('🎭 PRODUCTION SYSTEM: Using REAL AI - DALL-E 3 + Imagen 3 + DreamBooth + Vision AI pipeline')
+    } else {
+      console.log('No character image provided, using standard generation')
+      // Fallback to standard story pages
+      storyPages = createStoryPagesWithCharacterImages(selectedStory.content, [])
+    }
+
+    // Create the complete story result
+    const storyResult: CreateStoryResult = {
+      storyId: `story-${Date.now()}`,
+      title: selectedStory.title,
+      pages: storyPages,
+      targets: wordList.map(word => ({ lemma: word, count: 1 })),
+      settings: {
+        wordsToInclude: settings.wordsToInclude || 10,
+        translationLocale: settings.translationLocale || 'none',
+        guidanceText: settings.guidanceText,
+        styleImageUrl: settings.styleImageUrl
+      }
+    }
+
+    // Store the story IMMEDIATELY for retrieval (multiple methods for reliability)
+    console.log('Storing story with ID:', storyResult.storyId)
+    storeStory(storyResult)
+    cacheStoryImmediate(storyResult) // Immediate access cache
+    
+    // Verify storage worked
+    const storedStory = require('@/lib/story-storage').getStory(storyResult.storyId)
+    console.log('Story stored successfully:', !!storedStory)
+
     // Simulate processing delay
-    await new Promise(resolve => setTimeout(resolve, 2000))
+    await new Promise(resolve => setTimeout(resolve, 1000)) // Reduced delay
 
     const response: StoryResponse = {
-      id: `story-${Date.now()}`,
+      id: storyResult.storyId,
       title: selectedStory.title,
       content: selectedStory.content,
       wordsUsed: wordList,
-      estimatedReadTime
+      estimatedReadTime,
+      pages: storyPages,
+      // Include the complete story data for direct use
+      storyData: storyResult
     }
 
     return NextResponse.json(response)

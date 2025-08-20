@@ -127,6 +127,27 @@ export default function StorySetup({ onCreateStory, disabled = false }: StorySet
             </div>
           </div>
 
+          {/* Character Image Status */}
+          {storySettings.styleImageUrl && (
+            <div className="bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200 rounded-lg p-4">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-purple-300">
+                  <img 
+                    src={storySettings.styleImageUrl} 
+                    alt="Character reference" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div>
+                  <h3 className="font-medium text-purple-900">Character Image Uploaded</h3>
+                  <p className="text-sm text-purple-700">
+                    Story will be illustrated with manga-style artwork based on your character
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Create Story Button */}
           <div className="pt-4 border-t border-divider">
             <button
@@ -143,14 +164,23 @@ export default function StorySetup({ onCreateStory, disabled = false }: StorySet
             >
               {availableWords === 0 
                 ? 'No unknown words to include' 
-                : `Create Story Book`
+                : storySettings.styleImageUrl
+                  ? 'Create Manga Story Book'
+                  : 'Create Story Book'
               }
             </button>
             
             {canCreateStory && (
-              <p className="text-sm text-muted text-center mt-3">
-                Using {Math.min(storySettings.wordsToInclude, availableWords)} words from your unknown vocabulary
-              </p>
+              <div className="text-center mt-3 space-y-1">
+                <p className="text-sm text-muted">
+                  Using {Math.min(storySettings.wordsToInclude, availableWords)} words from your unknown vocabulary
+                </p>
+                {storySettings.styleImageUrl && (
+                  <p className="text-xs text-purple-600">
+                    ✨ Character-consistent manga illustrations will be generated
+                  </p>
+                )}
+              </div>
             )}
           </div>
         </div>

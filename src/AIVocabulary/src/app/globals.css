@@ -74,38 +74,49 @@ textarea:focus {
 }
 
 /* Vocabulary grid scrollbar - matches modern UI design */
+/* Custom scrollbar for vocabulary grid */
 .vocabulary-scrollbar {
-  scrollbar-width: auto;
-  scrollbar-color: #9ca3af #f3f4f6;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
 }
 
 .vocabulary-scrollbar::-webkit-scrollbar {
-  width: 14px;
+  width: 8px;
+  height: 8px;
 }
 
 .vocabulary-scrollbar::-webkit-scrollbar-track {
-  background: #f3f4f6;
-  border-radius: 7px;
-  border: 1px solid #e5e7eb;
+  background: #f1f5f9;
+  border-radius: 4px;
 }
 
 .vocabulary-scrollbar::-webkit-scrollbar-thumb {
-  background: #9ca3af;
-  border-radius: 7px;
-  border: 2px solid #f3f4f6;
-  background-clip: content-box;
+  background: #cbd5e1;
+  border-radius: 4px;
+  border: 1px solid #f1f5f9;
 }
 
 .vocabulary-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #6b7280;
+  background: #94a3b8;
 }
 
-/* Always show scrollbar */
-.vocabulary-scrollbar::-webkit-scrollbar-thumb {
-  background: #d1d5db;
-  border: 2px solid #f3f4f6;
+/* Page flip 3D animations */
+.rotate-y-0 {
+  transform: rotateY(0deg);
 }
 
-.vocabulary-scrollbar:hover::-webkit-scrollbar-thumb {
-  background: #9ca3af;
+.rotate-y-12 {
+  transform: rotateY(12deg);
+}
+
+.-rotate-y-12 {
+  transform: rotateY(-12deg);
+}
+
+/* Target word highlighting */
+.target-highlight {
+  background-color: rgba(76, 111, 255, 0.2);
+  color: #4C6FFF;
+  border-radius: 3px;
+  padding: 1px 3px;
 }
