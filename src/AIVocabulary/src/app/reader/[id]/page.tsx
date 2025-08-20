@@ -67,55 +67,55 @@ const SAMPLE_STORY: CreateStoryResult = {
     },
     {
       no: 2,
-      text: "Maya faced many obstacles with **courage** (勇气). Her resilient spirit helped her navigate through the abundant difficulties. She knew that every challenge made her stronger.",
+      text: "Maya faced many obstacles with **courage** (勇气). Her **resilient** (坚韧的) spirit helped her navigate through the **abundant** (丰富的) difficulties. She knew that every challenge made her stronger.",
       imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=450&fit=crop&auto=format",
       audioUrl: null
     },
     {
       no: 3,
-      text: "One day, a great storm brought abundant rainfall to the village. The resilient villagers worked together, showing tremendous courage in the face of adversity.",
+      text: "One day, a great storm brought **abundant** (丰富的) rainfall to the village. The **resilient** (坚韧的) villagers worked together, showing tremendous **courage** (勇气) in the face of adversity.",
       imageUrl: "https://images.unsplash.com/photo-1419833479618-c595710936ec?w=600&h=450&fit=crop&auto=format",
       audioUrl: null
     },
     {
       no: 4,
-      text: "Maya demonstrated her courage by helping elderly neighbors. Her resilient nature inspired others to be brave. The village had abundant resources when everyone contributed.",
+      text: "Maya demonstrated her **courage** (勇气) by helping elderly neighbors. Her **resilient** (坚韧的) nature inspired others to be brave. The village had **abundant** (丰富的) resources when everyone contributed.",
       imageUrl: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=600&h=450&fit=crop&auto=format",
       audioUrl: null
     },
     {
       no: 5,
-      text: "As the storm passed, Maya reflected on the importance of being resilient. She had learned that courage grows stronger with practice, and that abundant kindness makes any community thrive.",
+      text: "As the storm passed, Maya reflected on the importance of being **resilient** (坚韧的). She had learned that **courage** (勇气) grows stronger with practice, and that **abundant** (丰富的) kindness makes any community thrive.",
       imageUrl: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=450&fit=crop&auto=format",
       audioUrl: null
     },
     {
       no: 6,
-      text: "The village celebrated their collective courage and resilient spirit. They had discovered that together, they had abundant strength to overcome any challenge that came their way.",
+      text: "The village celebrated their collective **courage** (勇气) and **resilient** (坚韧的) spirit. They had discovered that together, they had **abundant** (丰富的) strength to overcome any challenge that came their way.",
       imageUrl: "https://images.unsplash.com/photo-1511593358241-7eea1f3c84e5?w=600&h=450&fit=crop&auto=format",
       audioUrl: null
     },
     {
       no: 7,
-      text: "Maya's courage became legendary in the village. Her resilient approach to problems inspired the young and old alike. The abundant wisdom she shared helped everyone grow stronger.",
+      text: "Maya's **courage** (勇气) became legendary in the village. Her **resilient** (坚韧的) approach to problems inspired the young and old alike. The **abundant** (丰富的) wisdom she shared helped everyone grow stronger.",
       imageUrl: "https://images.unsplash.com/photo-1501436513145-30f24e19fcc4?w=600&h=450&fit=crop&auto=format",
       audioUrl: null
     },
     {
       no: 8,
-      text: "Years passed, and Maya's resilient spirit continued to guide her through life's abundant challenges. Her courage never wavered, even when facing the most difficult obstacles.",
+      text: "Years passed, and Maya's **resilient** (坚韧的) spirit continued to guide her through life's **abundant** (丰富的) challenges. Her **courage** (勇气) never wavered, even when facing the most difficult obstacles.",
       imageUrl: "https://images.unsplash.com/photo-1476673160081-cf065607f449?w=600&h=450&fit=crop&auto=format",
       audioUrl: null
     },
     {
       no: 9,
-      text: "The village prospered under the influence of Maya's courage and resilient leadership. They had abundant harvests and peaceful times, all thanks to their collective bravery.",
+      text: "The village prospered under the influence of Maya's **courage** (勇气) and **resilient** (坚韧的) leadership. They had **abundant** (丰富的) harvests and peaceful times, all thanks to their collective bravery.",
       imageUrl: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&h=450&fit=crop&auto=format",
       audioUrl: null
     },
     {
       no: 10,
-      text: "And so Maya lived happily, her resilient heart full of courage and surrounded by the abundant love of her community. Her story inspired generations to be brave and never give up.",
+      text: "And so Maya lived happily, her **resilient** (坚韧的) heart full of **courage** (勇气) and surrounded by the **abundant** (丰富的) love of her community. Her story inspired generations to be brave and never give up.",
       imageUrl: "https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=600&h=450&fit=crop&auto=format",
       audioUrl: null
     }

@@ -440,6 +440,213 @@ export class GoogleProductionStorybook {
     }
     return Math.abs(hash).toString(16)
   }
+  
+  /**
+   * Add translations to vocabulary words in story text
+   */
+  static addTranslationsToText(
+    text: string, 
+    vocabularyWords: string[], 
+    translationLocale: string
+  ): string {
+    if (translationLocale === 'none' || !translationLocale) {
+      return text;
+    }
+    
+    let translatedText = text;
+    
+    // Translation dictionary for common languages
+    const translations: Record<string, Record<string, string>> = {
+      'es': { // Spanish
+        'catalyst': 'catalizador',
+        'ambiguous': 'ambiguo',
+        'paradigm': 'paradigma',
+        'synthesis': 'síntesis',
+        'phenomenon': 'fenómeno',
+        'comprehensive': 'integral',
+        'empirical': 'empírico',
+        'hypothesis': 'hipótesis',
+        'substantial': 'sustancial',
+        'unprecedented': 'sin precedentes',
+        'configuration': 'configuración',
+        'correlation': 'correlación',
+        'inevitable': 'inevitable',
+        'fluctuation': 'fluctuación',
+        'plausible': 'plausible',
+        'coherent': 'coherente',
+        'eloquent': 'elocuente',
+        'meticulous': 'meticuloso',
+        'pragmatic': 'pragmático',
+        'sophisticated': 'sofisticado',
+        'perpetual': 'perpetuo',
+        'intricate': 'intrincado',
+        'autonomous': 'autónomo',
+        'resilient': 'resistente',
+        'innovative': 'innovador',
+        'dynamic': 'dinámico',
+        'strategic': 'estratégico',
+        'fundamental': 'fundamental',
+        'abundant': 'abundante',
+        'courage': 'valor'
+      },
+      'fr': { // French
+        'catalyst': 'catalyseur',
+        'ambiguous': 'ambigu',
+        'paradigm': 'paradigme',
+        'synthesis': 'synthèse',
+        'phenomenon': 'phénomène',
+        'comprehensive': 'complet',
+        'empirical': 'empirique',
+        'hypothesis': 'hypothèse',
+        'substantial': 'substantiel',
+        'unprecedented': 'sans précédent',
+        'configuration': 'configuration',
+        'correlation': 'corrélation',
+        'inevitable': 'inévitable',
+        'fluctuation': 'fluctuation',
+        'plausible': 'plausible',
+        'coherent': 'cohérent',
+        'eloquent': 'éloquent',
+        'meticulous': 'méticuleux',
+        'pragmatic': 'pragmatique',
+        'sophisticated': 'sophistiqué',
+        'perpetual': 'perpétuel',
+        'intricate': 'complexe',
+        'autonomous': 'autonome',
+        'resilient': 'résilient',
+        'innovative': 'innovant',
+        'dynamic': 'dynamique',
+        'strategic': 'stratégique',
+        'fundamental': 'fondamental',
+        'abundant': 'abondant',
+        'courage': 'courage'
+      },
+      'de': { // German
+        'catalyst': 'Katalysator',
+        'ambiguous': 'mehrdeutig',
+        'paradigm': 'Paradigma',
+        'synthesis': 'Synthese',
+        'phenomenon': 'Phänomen',
+        'comprehensive': 'umfassend',
+        'empirical': 'empirisch',
+        'hypothesis': 'Hypothese',
+        'substantial': 'wesentlich',
+        'unprecedented': 'beispiellos',
+        'configuration': 'Konfiguration',
+        'correlation': 'Korrelation',
+        'inevitable': 'unvermeidlich',
+        'fluctuation': 'Schwankung',
+        'plausible': 'plausibel',
+        'coherent': 'kohärent',
+        'eloquent': 'eloquent',
+        'meticulous': 'akribisch',
+        'pragmatic': 'pragmatisch',
+        'sophisticated': 'anspruchsvoll',
+        'perpetual': 'ewig',
+        'intricate': 'kompliziert',
+        'autonomous': 'autonom',
+        'resilient': 'widerstandsfähig',
+        'innovative': 'innovativ',
+        'dynamic': 'dynamisch',
+        'strategic': 'strategisch',
+        'fundamental': 'grundlegend',
+        'abundant': 'reichlich',
+        'courage': 'Mut'
+      },
+      'zh': { // Chinese
+        'catalyst': '催化剂',
+        'ambiguous': '模糊的',
+        'paradigm': '范式',
+        'synthesis': '综合',
+        'phenomenon': '现象',
+        'comprehensive': '全面的',
+        'empirical': '经验的',
+        'hypothesis': '假设',
+        'substantial': '实质的',
+        'unprecedented': '前所未有的',
+        'configuration': '配置',
+        'correlation': '相关性',
+        'inevitable': '不可避免的',
+        'fluctuation': '波动',
+        'plausible': '合理的',
+        'coherent': '连贯的',
+        'eloquent': '雄辩的',
+        'meticulous': '细致的',
+        'pragmatic': '实用的',
+        'sophisticated': '复杂的',
+        'perpetual': '永续的',
+        'intricate': '错综复杂的',
+        'autonomous': '自主的',
+        'resilient': '有韧性的',
+        'innovative': '创新的',
+        'dynamic': '动态的',
+        'strategic': '战略的',
+        'fundamental': '基本的',
+        'abundant': '丰富的',
+        'courage': '勇气'
+      },
+      'ja': { // Japanese
+        'catalyst': '触媒',
+        'ambiguous': '曖昧な',
+        'paradigm': 'パラダイム',
+        'synthesis': '合成',
+        'phenomenon': '現象',
+        'comprehensive': '包括的な',
+        'empirical': '経験的な',
+        'hypothesis': '仮説',
+        'substantial': '実質的な',
+        'unprecedented': '前例のない',
+        'configuration': '構成',
+        'correlation': '相関',
+        'inevitable': '避けられない',
+        'fluctuation': '変動',
+        'plausible': 'もっともらしい',
+        'coherent': '一貫した',
+        'eloquent': '雄弁な',
+        'meticulous': '細心な',
+        'pragmatic': '実用的な',
+        'sophisticated': '洗練された',
+        'perpetual': '永続的な',
+        'intricate': '複雑な',
+        'autonomous': '自律的な',
+        'resilient': '回復力のある',
+        'innovative': '革新的な',
+        'dynamic': '動的な',
+        'strategic': '戦略的な',
+        'fundamental': '基本的な',
+        'abundant': '豊富な',
+        'courage': '勇気'
+      }
+    };
+    
+    const targetLangDict = translations[translationLocale];
+    if (!targetLangDict) {
+      console.warn(`Translation not available for language: ${translationLocale}`);
+      return text;
+    }
+    
+    // Add translations to vocabulary words
+    vocabularyWords.forEach(word => {
+      const translation = targetLangDict[word.toLowerCase()];
+      if (translation) {
+        // Replace **word** with **word** (translation)
+        const boldWordRegex = new RegExp(`\\*\\*${word}\\*\\*`, 'gi');
+        translatedText = translatedText.replace(boldWordRegex, `**${word}** (${translation})`);
+        
+        // Also handle non-bold occurrences
+        const wordRegex = new RegExp(`\\b${word}\\b`, 'gi');
+        translatedText = translatedText.replace(wordRegex, (match) => {
+          // Check if it's already been processed (has bold formatting)
+          if (translatedText.includes(`**${match}**`)) {
+            return match; // Skip if already bolded
+          }
+          return `${match} (${translation})`;
+        });
+      }
+    });
+    
+    return translatedText;
+  }
 }
 
 /**

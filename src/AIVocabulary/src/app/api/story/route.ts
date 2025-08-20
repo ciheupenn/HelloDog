@@ -5,7 +5,7 @@ import type { CreateStoryResult } from '@/types/story'
 import { storeStory } from '@/lib/story-storage'
 import { generateCharacterConsistentStory } from '@/lib/character-consistent-images'
 import { generateGoogleStorybook, generateImagesFromPageText } from '@/lib/google-storybook-engine'
-import { generateGoogleProductionStorybook } from '@/lib/google-production-storybook'
+import { generateGoogleProductionStorybook, GoogleProductionStorybook } from '@/lib/google-production-storybook'
 import { cacheStoryImmediate } from '@/lib/immediate-story-cache'
 
 /**
@@ -230,12 +230,44 @@ The **fluctuation** in magical energy reached its peak as Lyra began her incanta
         audioUrl: null
       }))
       
+      // Apply translations to Google production pages if requested
+      if (settings.translationLocale && settings.translationLocale !== 'none') {
+        console.log('🌐 GOOGLE PRODUCTION + TRANSLATIONS: Adding translations for locale:', settings.translationLocale)
+        
+        storyPages = storyPages.map(page => ({
+          ...page,
+          text: GoogleProductionStorybook.addTranslationsToText(
+            page.text,
+            wordList,
+            settings.translationLocale
+          )
+        }))
+        
+        console.log('✅ GOOGLE PRODUCTION + TRANSLATIONS: Applied translations to', storyPages.length, 'pages')
+      }
+      
       console.log('✅ GOOGLE PRODUCTION: Generated', storyPages.length, 'REAL AI character-consistent pages')
       console.log('🎭 PRODUCTION SYSTEM: Using REAL AI - DALL-E 3 + Imagen 3 + DreamBooth + Vision AI pipeline')
     } else {
       console.log('No character image provided, using standard generation')
       // Fallback to standard story pages
       storyPages = createStoryPagesWithCharacterImages(selectedStory.content, [])
+    }
+
+    // Apply translations if requested
+    if (settings.translationLocale && settings.translationLocale !== 'none') {
+      console.log('🌐 TRANSLATIONS: Adding translations for locale:', settings.translationLocale)
+      
+      storyPages = storyPages.map(page => ({
+        ...page,
+        text: GoogleProductionStorybook.addTranslationsToText(
+          page.text,
+          wordList,
+          settings.translationLocale
+        )
+      }))
+      
+      console.log('✅ TRANSLATIONS: Applied translations to', storyPages.length, 'pages')
     }
 
     // Create the complete story result
