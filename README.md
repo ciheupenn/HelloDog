@@ -18,7 +18,7 @@ Video Walkthrough
 
 Here's a walkthrough of implemented features:
 
-<img src='helloDog/assets/walkthrough.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='assets/walkthrough.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with macOS and converted from MOV
 
