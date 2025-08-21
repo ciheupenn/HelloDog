@@ -18,7 +18,7 @@ Video Walkthrough
 
 Here's a walkthrough of implemented features:
 
-<img src='assets/walkthrough.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+![Walkthrough](assets/walkthrough.gif)
 
 GIF created with macOS and converted from MOV
 
