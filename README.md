@@ -22,7 +22,7 @@ The following required functionality is completed:
 
 Here’s a walkthrough of the implemented features:
 
-![Walkthrough](https://raw.githubusercontent.com/ciheupenn/HelloDog/main/assets/walkthrough.gif)
+![Walkthrough](https://raw.githubusercontent.com/ciheupenn/HelloDog/main/assets/walkthrough_final.gif)
 
 *GIF created on macOS from a screen recording.*
 
