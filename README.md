@@ -22,7 +22,8 @@ The following required functionality is completed:
 
 Here’s a walkthrough of the implemented features:
 
-![Walkthrough](assets/walkthrough_final.gif)
+<img src='./assets/creatorList.gif' title='Video Walkthrough' width='100%' alt='HelloDog App Demo' />
+
 
 *GIF created on macOS from a screen recording.*
 
